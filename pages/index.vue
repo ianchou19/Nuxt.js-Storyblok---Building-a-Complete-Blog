@@ -18,26 +18,47 @@ export default {
   components: {
     PostPreview
   },
-  data() {
-    return {
-      posts: [
-        {
-          title: 'A New beging',
-          previewText: 'This is damn one post',
-          thumbnailUrl:
-            'https://www.healthyfood.co.uk/wp-content/uploads/2015/05/Chicken-in-a-bag-768x704.jpg',
-          id: 'a-new-beginning'
-        },
-        {
-          title: 'A Second beging',
-          previewText: 'This is damn one post',
-          thumbnailUrl:
-            'https://www.healthyfood.co.uk/wp-content/uploads/2015/08/gnocchi-768x704.jpg',
-          id: 'a-second-beginning'
+  asyncData(context) {
+    return context.app.$storyapi
+      .get('cdn/stories', {
+        version: 'draft',
+        starts_with: 'blog/'
+      })
+      .then((res) => {
+        // console.log(res)
+        // return res.data.stories
+        return {
+          posts: res.data.stories.map((bp) => {
+            return {
+              id: bp.slug,
+              title: bp.content.title,
+              previewText: bp.content.summary,
+              thumbnailUrl: bp.content.thumbnail
+            }
+          })
         }
-      ]
-    }
+      })
   }
+  // data() {
+  //   return {
+  //     posts: [
+  //       {
+  //         title: 'A New beging',
+  //         previewText: 'This is damn one post',
+  //         thumbnailUrl:
+  //           'https://www.healthyfood.co.uk/wp-content/uploads/2015/05/Chicken-in-a-bag-768x704.jpg',
+  //         id: 'a-new-beginning'
+  //       },
+  //       {
+  //         title: 'A Second beging',
+  //         previewText: 'This is damn one post',
+  //         thumbnailUrl:
+  //           'https://www.healthyfood.co.uk/wp-content/uploads/2015/08/gnocchi-768x704.jpg',
+  //         id: 'a-second-beginning'
+  //       }
+  //     ]
+  //   }
+  // }
 }
 </script>
 

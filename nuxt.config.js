@@ -39,7 +39,8 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    ['storyblok-nuxt', { accessToken: 'vqf8CDiyAQcINv7JIhRDQgtt', cacheProvider: 'memory' }]
   ],
   /*
    ** Axios module configuration
