@@ -8,19 +8,15 @@
       :excerpt="post.previewText"
       :thumbnailImage="post.thumbnailUrl"
     />
-    <SquareButton />
   </section>
 </template>
 
 <script>
 import PostPreview from '@/components/Blog/PostPreview'
-// eslint-disable-next-line no-unused-vars
-import SquareButton from '@/components/SquareButton'
 
 export default {
   components: {
-    PostPreview,
-    SquareButton
+    PostPreview
   },
   asyncData(context) {
     return context.app.$storyapi

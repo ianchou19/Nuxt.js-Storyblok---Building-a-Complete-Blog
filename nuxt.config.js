@@ -1,3 +1,7 @@
+// import axios from 'axios'
+// eslint-disable-next-line nuxt/no-cjs-in-config
+const axios = require('axios')
+
 export default {
   mode: 'universal',
   /*
@@ -40,8 +44,27 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/eslint-module',
-    ['storyblok-nuxt', { accessToken: 'vqf8CDiyAQcINv7JIhRDQgtt', cacheProvider: 'memory' }]
+    ['storyblok-nuxt', { accessToken: process.env.NODE_ENV === 'production' ? '0K5XKyFaVjtwal995serSQtt' : 'vqf8CDiyAQcINv7JIhRDQgtt', cacheProvider: 'memory' }]
   ],
+
+  generate: {
+    routes: function () {
+      return axios.get(
+        'https//api.storyblok.com/v1/cdn/stories?version=published&token=0K5XKyFaVjtwal995serSQtt&starts_with=blog&cv=' +
+        Math.floor(Date.now() / 1e3)
+      )
+        .then((res) => {
+          const blogPosts = res.data.stories.map(bp => bp.full_slug)
+          return [
+            '/',
+            '/blog',
+            '/about',
+            ...blogPosts
+          ]
+        })
+    }
+  },
+
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
